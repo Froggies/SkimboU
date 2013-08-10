@@ -3,7 +3,7 @@ import Ubuntu.Components 0.1
 
 Page {
 
-    signal logged(string token)
+    signal login(string provider)
 
     title: i18n.tr("Skimbo - Login")
 
@@ -24,48 +24,64 @@ Page {
         Row {
             Button {
                 text: i18n.tr("Login with Twitter")
-                onClicked: logged("1")
+                iconSource: "../files/brand/twitter.png"
+                onClicked: login("twitter")
                 width: units.gu(25)
             }
         }
         Row {
             Button {
                 text: i18n.tr("Login with Facebook")
-                onClicked: logged("2")
+                iconSource: "../files/brand/facebook.png"
+                onClicked: login("facebook")
                 width: units.gu(25)
             }
         }
         Row {
             Button {
                 text: i18n.tr("Login with G+")
-                onClicked: logged("3")
+                iconSource: "../files/brand/googleplus.png"
+                onClicked: login("googleplus")
                 width: units.gu(25)
             }
         }
-        Row {
+        Grid {
+            columns: 4
+            spacing: units.gu(1)
+
             Button {
-                text: i18n.tr("?")
-                onClicked: logged("?")
+                iconSource: "../files/brand/github.png"
+                onClicked: login("?")
                 width: units.gu(5)
             }
             Button {
-                text: i18n.tr("?")
-                onClicked: logged("?")
+                iconSource: "../files/brand/linkedin.png"
+                onClicked: login("?")
                 width: units.gu(5)
             }
             Button {
-                text: i18n.tr("?")
-                onClicked: logged("?")
+                iconSource: "../files/brand/viadeo.png"
+                onClicked: login("?")
                 width: units.gu(5)
             }
             Button {
-                text: i18n.tr("?")
-                onClicked: logged("?")
+                iconSource: "../files/brand/reddit.png"
+                onClicked: login("?")
                 width: units.gu(5)
             }
             Button {
-                text: i18n.tr("?")
-                onClicked: logged("?")
+                iconSource: "../files/brand/scoopit.png"
+                onClicked: login("?")
+                width: units.gu(5)
+            }
+            Button {
+                iconSource: "../files/brand/trello.png"
+                onClicked: login("?")
+                width: units.gu(5)
+            }
+            Button {
+                iconSource: "../files/brand/bitbucket.png"
+                onClicked: login("?")
                 width: units.gu(5)
             }
         }

@@ -35,4 +35,11 @@ Page {
         }
     }
 
+    /*tools: ToolbarActions {
+        Button {
+           anchors.verticalCenter: parent.verticalCenter
+           text: "standard"
+       }
+    }*/
+
 }

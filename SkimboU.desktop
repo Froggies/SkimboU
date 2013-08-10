@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=SkimboU
+Comment=My project description
+Exec=/usr/bin/qmlscene $@ /usr/share/SkimboU/SkimboU.qml
+Icon=qmlscene
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true

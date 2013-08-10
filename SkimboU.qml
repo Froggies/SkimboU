@@ -20,7 +20,11 @@ MainView {
     height: units.gu(75)
 
     property Storage storage
-    property string serverUrl: "http://127.0.0.1:9000/api/mobile/auth/"
+    property Network network
+    property string serverUrl: "http://127.0.0.1:9000"
+    property string authUrl: serverUrl + "/api/mobile/auth/"
+    property string connectUrl: serverUrl + "/api/mobile/connect/"
+    property string commandUrl: serverUrl + "/api/mobile/command/"
 
     PageStack {
         id: globalContainer
@@ -31,7 +35,7 @@ MainView {
                 visible = false
                 webView.visible = true
                 webView.title = provider
-                webView.webViewUrl = serverUrl + provider
+                webView.webViewUrl = authUrl + provider
             }
         }
         WebViewPage {
@@ -49,9 +53,14 @@ MainView {
         }
 
         Component.onCompleted: {
+            network = Qt.createComponent("utils/Network.qml").createObject();
+            network.connectUrl = connectUrl
+            network.commandUrl = commandUrl
+            defaultPage.setNetwork(network)
             storage = Qt.createComponent("utils/Storage.qml").createObject();
             if(storage.getSetting("token") !== "Unknown") {
                 console.log(storage.getSetting("token"))
+                network.connect(storage.getSetting("token"))
                 loginPage.visible = false
                 defaultPage.visible = true
             }

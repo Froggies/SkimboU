@@ -13,7 +13,7 @@ Project {
         directory: "."
     }
     ImageFiles {
-        directory: "."
+        directory: "files/"
     }
     Files {
         filter: "*.desktop"

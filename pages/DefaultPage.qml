@@ -39,7 +39,7 @@ Page {
 
     function newDataFromServer(data) {
         console.log("DefaultPage :: newDataFromServer :: "+data.cmd)
-        var compo = Qt.createComponent(Qt.resolvedUrl("../components/HelloComponent.qml"))
+        var compo = Qt.createComponent(Qt.resolvedUrl("../components/MinColumnComponent.qml"))
         if(data.cmd === "allColumns") {
             for(var i in data.body) {
                 var button = compo.createObject(columnsContainer)

@@ -26,6 +26,14 @@ Page {
     }
 
     tools: ToolbarItems {
+        ToolbarButton {
+            text: i18n.tr("Column")
+            iconSource: Qt.resolvedUrl("../files/icone_addcolumn.png")
+        }
+        ToolbarButton {
+            text: i18n.tr("Skimber")
+            iconSource: Qt.resolvedUrl("../files/icone_skimber.png")
+        }
         back: ToolbarButton {
             text: i18n.tr("Disconnect")
             iconSource: Qt.resolvedUrl("../files/brand/twitter.png")
@@ -43,7 +51,7 @@ Page {
         if(data.cmd === "allColumns") {
             for(var i in data.body) {
                 var button = compo.createObject(columnsContainer)
-                button.text = data.body[i].title
+                button.column = data.body[i]
             }
         }
     }

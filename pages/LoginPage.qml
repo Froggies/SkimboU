@@ -5,7 +5,7 @@ Page {
 
     signal login(string provider)
 
-    title: i18n.tr("Skimbo - Login")
+    title: i18n.tr("Skimbo")
 
     Column {
         id: pageLayout

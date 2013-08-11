@@ -5,6 +5,7 @@ import "../utils"
 Page {
 
     property Network network
+    signal goBack()
 
     title: i18n.tr("Skimbo")
 
@@ -18,40 +19,38 @@ Page {
 
         spacing: units.gu(1)
 
-        Row {
+        Grid {
+            id: columnsContainer
             spacing: units.gu(1)
+        }
+    }
 
-            Button {
-                text: i18n.tr("logged")
-            }
-            Button {
-                text: i18n.tr("logged")
+    tools: ToolbarItems {
+        back: ToolbarButton {
+            text: i18n.tr("Disconnect")
+            iconSource: Qt.resolvedUrl("../files/brand/twitter.png")
+            onTriggered: {
+                goBack()
             }
         }
-
-        Row {
-            spacing: units.gu(1)
-
-            Button {
-                text: i18n.tr("logged")
-            }
-        }
+        opened: true
+        locked: true
     }
 
     function newDataFromServer(data) {
         console.log("DefaultPage :: newDataFromServer :: "+data.cmd)
+        var compo = Qt.createComponent(Qt.resolvedUrl("../components/HelloComponent.qml"))
+        if(data.cmd === "allColumns") {
+            for(var i in data.body) {
+                var button = compo.createObject(columnsContainer)
+                button.text = data.body[i].title
+            }
+        }
     }
 
     function setNetwork(pnetwork) {
         network = pnetwork
         network.onNewDataFromServer.connect(newDataFromServer)
     }
-
-    /*tools: ToolbarActions {
-        Button {
-           anchors.verticalCenter: parent.verticalCenter
-           text: "standard"
-       }
-    }*/
 
 }

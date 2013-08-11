@@ -5,6 +5,7 @@ import Ubuntu.Components 0.1
 Page {
 
     property string webViewUrl
+    signal goBack()
     signal logged(string token)
 
     WebView {
@@ -21,5 +22,17 @@ Page {
                 logged(token);
             }
         }
+    }
+
+    tools: ToolbarItems {
+        back: ToolbarButton {
+            text: i18n.tr("Cancel")
+            iconSource: Qt.resolvedUrl("../files/brand/twitter.png")
+            onTriggered: {
+                goBack()
+            }
+        }
+        opened: true
+        locked: true
     }
 }

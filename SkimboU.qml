@@ -32,27 +32,34 @@ MainView {
         LoginPage {
             id: loginPage
             onLogin: {
-                visible = false
-                webView.visible = true
                 webView.title = provider
                 webView.webViewUrl = authUrl + provider
+                globalContainer.push(webView)
             }
         }
         WebViewPage {
             id: webView
             visible: false
+            onGoBack: {
+                globalContainer.pop()
+            }
             onLogged: {
-                visible = false
                 storage.setSetting("token", token)
-                defaultPage.visible = true
+                network.connect(storage.getSetting("token"))
+                globalContainer.pop()//webView delete
+                globalContainer.push(defaultPage)
             }
         }
         DefaultPage {
             id: defaultPage
             visible: false
+            onGoBack: {
+                globalContainer.pop()
+            }
         }
 
         Component.onCompleted: {
+            globalContainer.push(loginPage)
             network = Qt.createComponent("utils/Network.qml").createObject();
             network.connectUrl = connectUrl
             network.commandUrl = commandUrl
@@ -63,6 +70,7 @@ MainView {
                 network.connect(storage.getSetting("token"))
                 loginPage.visible = false
                 defaultPage.visible = true
+                globalContainer.push(defaultPage)
             }
         }
 

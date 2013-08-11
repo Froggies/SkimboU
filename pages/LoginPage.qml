@@ -24,7 +24,7 @@ Page {
         Row {
             Button {
                 text: i18n.tr("Login with Twitter")
-                iconSource: "../files/brand/twitter.png"
+                iconSource: Qt.resolvedUrl("../files/brand/twitter.png")
                 onClicked: login("twitter")
                 width: units.gu(25)
             }
@@ -32,7 +32,7 @@ Page {
         Row {
             Button {
                 text: i18n.tr("Login with Facebook")
-                iconSource: "../files/brand/facebook.png"
+                iconSource: Qt.resolvedUrl("../files/brand/facebook.png")
                 onClicked: login("facebook")
                 width: units.gu(25)
             }
@@ -40,7 +40,7 @@ Page {
         Row {
             Button {
                 text: i18n.tr("Login with G+")
-                iconSource: "../files/brand/googleplus.png"
+                iconSource: Qt.resolvedUrl("../files/brand/googleplus.png")
                 onClicked: login("googleplus")
                 width: units.gu(25)
             }
@@ -50,38 +50,38 @@ Page {
             spacing: units.gu(1)
 
             Button {
-                iconSource: "../files/brand/github.png"
-                onClicked: login("?")
+                iconSource: Qt.resolvedUrl("../files/brand/github.png")
+                onClicked: login("github")
                 width: units.gu(5)
             }
             Button {
-                iconSource: "../files/brand/linkedin.png"
-                onClicked: login("?")
+                iconSource: Qt.resolvedUrl("../files/brand/linkedin.png")
+                onClicked: login("linkedin")
                 width: units.gu(5)
             }
             Button {
-                iconSource: "../files/brand/viadeo.png"
-                onClicked: login("?")
+                iconSource: Qt.resolvedUrl("../files/brand/viadeo.png")
+                onClicked: login("viadeo")
                 width: units.gu(5)
             }
             Button {
-                iconSource: "../files/brand/reddit.png"
-                onClicked: login("?")
+                iconSource: Qt.resolvedUrl("../files/brand/reddit.png")
+                onClicked: login("reddit")
                 width: units.gu(5)
             }
             Button {
-                iconSource: "../files/brand/scoopit.png"
-                onClicked: login("?")
+                iconSource: Qt.resolvedUrl("../files/brand/scoopit.png")
+                onClicked: login("scoopit")
                 width: units.gu(5)
             }
             Button {
-                iconSource: "../files/brand/trello.png"
-                onClicked: login("?")
+                iconSource: Qt.resolvedUrl("../files/brand/trello.png")
+                onClicked: login("trello")
                 width: units.gu(5)
             }
             Button {
-                iconSource: "../files/brand/bitbucket.png"
-                onClicked: login("?")
+                iconSource: Qt.resolvedUrl("../files/brand/bitbucket.png")
+                onClicked: login("bitbucket")
                 width: units.gu(5)
             }
         }

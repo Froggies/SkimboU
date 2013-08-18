@@ -24,15 +24,4 @@ Page {
         }
     }
 
-    tools: ToolbarItems {
-        back: ToolbarButton {
-            text: i18n.tr("Cancel")
-            iconSource: Qt.resolvedUrl("../files/brand/twitter.png")
-            onTriggered: {
-                goBack()
-            }
-        }
-        opened: true
-        locked: true
-    }
 }

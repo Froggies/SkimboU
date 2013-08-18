@@ -10,52 +10,50 @@ Page {
 
     title: i18n.tr("Skimbo")
 
-    Column {
-
+    Tabs {
+        id: tabs
         anchors.fill: parent
-
-        Tabs {
-            id: tabs
+        Tab {
+            title: i18n.tr("All columns")
             anchors.fill: parent
-            Tab {
-                title: i18n.tr("All columns")
-                Column {
-                    anchors {
-                        fill: parent
-                        margins: units.gu(1)
-                    }
 
-                    spacing: units.gu(1)
-
-                    ListView {
-                        id: columnsContainer
-                        delegate: MinColumnComponent{}
+            ListView {
+                id: columnsContainer
+                anchors.fill: parent
+                delegate: MinColumnComponent{
+                    column: modelData
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: tabs.selectedTabIndex = index + 1
                     }
                 }
             }
-            Repeater {
-                id: repeater
-                Tab {
-                    title: modelData.title
-                    page: Page {
-                        Label {
-                            anchors.centerIn: parent
-                            text: "Use header to navigate between tabs"
-                        }
-                    }
-                }
-            }
-
         }
+        Repeater {
+            id: repeater
+            Tab {
+                title: modelData.title
+                anchors.fill: parent
+
+                ColumnPage {
+                    id: columnPage
+                    anchors.fill: parent
+                    column: modelData
+                }
+
+                function addMsg(newMsg) {
+                    columnPage.addMsg(newMsg);
+                }
+            }
+        }
+
     }
 
     tools: ToolbarItems {
         ToolbarButton {
             text: i18n.tr("Logout")
             iconSource: Qt.resolvedUrl("../files/icone_logout.png")
-            onTriggered: {
-                goBack()
-            }
+            onTriggered: goBack()
         }
         ToolbarButton {
             text: i18n.tr("Column")
@@ -65,16 +63,28 @@ Page {
             text: i18n.tr("Skimber")
             iconSource: Qt.resolvedUrl("../files/icone_skimber.png")
         }
+        ToolbarButton {
+            text: i18n.tr("All columns")
+            onTriggered: tabs.selectedTabIndex = 0
+        }
     }
 
     function newDataFromServer(data) {
-        console.log("DefaultPage :: newDataFromServer :: "+data.cmd)
+        //console.log("DefaultPage :: newDataFromServer :: "+data.cmd)
         if(data.cmd === "allColumns") {
             for(var i in data.body) {
-                console.log(data.body[i].title)
+                data.body[i].messages = [];
             }
             columnsContainer.model = data.body
             repeater.model = data.body
+        } else if(data.cmd === "msg") {
+            for(var c in repeater.model) {
+                var column = repeater.model[c]
+                if(column.title === data.body.column) {
+                    repeater.itemAt(c).addMsg(data.body.msg);
+                    return;
+                }
+            }
         }
     }
 

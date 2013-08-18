@@ -16,7 +16,7 @@ Item {
 
         http.onreadystatechange = function() { // Call a function when the state changes.
             var jsonArray = http.responseText.split('data: ')
-            console.log("Network :: http receive :: length == "+jsonArray.length)
+            //console.log("Network :: http receive :: length == "+jsonArray.length)
             for(var index=alreadyTraited; index < jsonArray.length; index++) {
                 var j = jsonArray[index].trim()
                 if(j.length > 0) {

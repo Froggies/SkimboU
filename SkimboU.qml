@@ -16,8 +16,8 @@ MainView {
     */
     //automaticOrientation: true
     
-    width: units.gu(100)
-    height: units.gu(75)
+    width: units.gu(35)
+    height: units.gu(60)
 
     property Storage storage
     property Network network

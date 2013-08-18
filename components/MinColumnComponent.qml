@@ -4,7 +4,7 @@ import Ubuntu.Components 0.1
 UbuntuShape {
 
     width: parent.width
-    height: units.gu(10)
+    height: units.gu(20)
 
     property var column
 
@@ -12,7 +12,6 @@ UbuntuShape {
         if(column) {
             myText.text = column.title
             var compo = Qt.createComponent(Qt.resolvedUrl("ProviderServiceComponent.qml"))
-            console.log("MinColumnComponent :: onColumnChanged :: "+column.unifiedRequests.length)
             for(var i in column.unifiedRequests) {
                 var psc = compo.createObject(layout)
                 psc.provider = column.unifiedRequests[i]
@@ -20,19 +19,13 @@ UbuntuShape {
         }
     }
 
-    Column {
-        anchors.centerIn: parent
-        Row {
-            Label {
-                id: myText
-            }
+    Row {
+        Label {
+            id: myText
         }
-        Row {
-            Grid {
-                id: layout
-                columns: 4
-            }
+        Grid {
+            id: layout
+            columns: 4
         }
-
     }
 }

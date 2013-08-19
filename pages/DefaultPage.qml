@@ -20,6 +20,7 @@ Page {
             ListView {
                 id: columnsContainer
                 anchors.fill: parent
+                clip: true
                 delegate: MinColumnComponent{
                     column: modelData
                     MouseArea {

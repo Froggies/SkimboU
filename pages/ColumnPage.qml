@@ -24,6 +24,7 @@ Rectangle {
 
     ListView {
         anchors.fill: parent
+        clip: true
         model: listModel
         delegate: MessageComponent {
             message: listModel.get(index)

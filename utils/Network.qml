@@ -14,7 +14,7 @@ Item {
         http.open("GET", connectUrl + token, true)
         var alreadyTraited = 0
 
-        http.onreadystatechange = function() { // Call a function when the state changes.
+        http.onreadystatechange = function() {
             var jsonArray = http.responseText.split('data: ')
             //console.log("Network :: http receive :: length == "+jsonArray.length)
             for(var index=alreadyTraited; index < jsonArray.length; index++) {
@@ -23,7 +23,7 @@ Item {
                     var cmd = JSON.parse(j)
                     //console.log(j)
                     if(cmd.cmd === "ping") {
-                        send("{cmd: pong}")
+                        send({cmd: "pong"})
                     } else {
                         onNewDataFromServer(cmd)
                     }
@@ -37,9 +37,10 @@ Item {
     function send(data) {
         var http = new XMLHttpRequest()
         var param = data
+        //console.log("Network :: send :: data == "+data)
         http.open("POST", commandUrl + token, true);
-
-        http.send(param);
+        http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        http.send(JSON.stringify(param));
     }
 
 }

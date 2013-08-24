@@ -13,7 +13,7 @@ Rectangle {
 
     onMessageChanged: {
         if(message) {
-            console.log("MessageComponent :: onMessageChanged :: "+message.from)
+            //console.log("MessageComponent :: onMessageChanged :: "+message.from)
             if(colorConstant === null) {
                 colorConstant = Qt.createComponent(Qt.resolvedUrl("../utils/ColorConstant.qml")).createObject();
             }

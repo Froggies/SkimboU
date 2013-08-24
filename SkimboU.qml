@@ -55,7 +55,21 @@ MainView {
             visible: false
             onGoBack: {
                 globalContainer.pop()
+                storage.setSetting("token", "Unknown")
             }
+            onGoAddColumnPage: {
+                addColumnPage = null
+                globalContainer.push(addColumnPage)
+            }
+            onGoModifColumnPage: {
+                addColumnPage.column = column
+                globalContainer.push(addColumnPage)
+            }
+        }
+        AddColumnPage {
+            id: addColumnPage
+            visible: false
+            onColumnAdded: globalContainer.pop()
         }
 
         Component.onCompleted: {
@@ -64,6 +78,7 @@ MainView {
             network.connectUrl = connectUrl
             network.commandUrl = commandUrl
             defaultPage.setNetwork(network)
+            addColumnPage.setNetwork(network)
             storage = Qt.createComponent("utils/Storage.qml").createObject();
             if(storage.getSetting("token") !== "Unknown") {
                 console.log(storage.getSetting("token"))

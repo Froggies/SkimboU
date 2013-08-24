@@ -10,9 +10,7 @@ Page {
 
     WebView {
         id: webView
-        anchors {
-            fill: parent
-        }
+        anchors.fill: parent
         url: webViewUrl
 
         onLoadingChanged: {

@@ -8,11 +8,6 @@ Rectangle {
 
     property var column
 
-    onColumnChanged: {
-        if(column) {
-        }
-    }
-
     function addMsg(newMsg) {
         console.log("ColumnPage :: addMsg :: "+newMsg.sinceId);
         listModel.append(newMsg);

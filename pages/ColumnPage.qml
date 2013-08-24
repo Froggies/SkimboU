@@ -10,6 +10,15 @@ Rectangle {
 
     function addMsg(newMsg) {
         console.log("ColumnPage :: addMsg :: "+newMsg.sinceId);
+        for(var i=0; i<listModel.count; i++) {
+            if(listModel.get(i).createdAt < newMsg.createdAt) {
+                listModel.insert(i, newMsg)
+                return;
+            } else if(listModel.get(i).createdAt === newMsg.createdAt) {
+                listModel.set(i, newMsg)
+                return;
+            }
+        }
         listModel.append(newMsg);
     }
 

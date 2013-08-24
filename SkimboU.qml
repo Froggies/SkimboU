@@ -2,7 +2,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "components"
 import "pages"
-import QtQuick.LocalStorage 2.0
 import "utils"
 
 MainView {

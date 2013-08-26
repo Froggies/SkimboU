@@ -16,16 +16,26 @@ Item {
 
         http.onreadystatechange = function() {
             var jsonArray = http.responseText.split('data: ')
+            var lastCatched = false
             //console.log("Network :: http receive :: length == "+jsonArray.length)
             for(var index=alreadyTraited; index < jsonArray.length; index++) {
                 var j = jsonArray[index].trim()
+                if(lastCatched !== false) {
+                    j = lastCatched + j
+                }
                 if(j.length > 0) {
-                    var cmd = JSON.parse(j)
                     //console.log(j)
-                    if(cmd.cmd === "ping") {
-                        send({cmd: "pong"})
-                    } else {
-                        onNewDataFromServer(cmd)
+                    try {
+                        var cmd = JSON.parse(j)
+                        //console.log(cmd.cmd)
+                        if(cmd.cmd === "ping") {
+                            send({cmd: "pong"})
+                        } else {
+                            onNewDataFromServer(cmd)
+                        }
+                        lastCatched = false
+                    } catch(e) {
+                        lastCatched = j
                     }
                 }
             }

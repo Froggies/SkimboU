@@ -12,24 +12,26 @@ Page {
 
     onColumnChanged: {
         if(column) {
-            console.log("AddColumnPage :: onColumnChange :: column == "+JSON.stringify(column))
             titleInput.text = column.title
+            columnTitlePage.title = i18n.tr("Mod column")
+            selectServicesPage.title = i18n.tr("Mod column")
+            buttonValidate.text = i18n.tr("mod column")
         } else {
             titleInput.text = ""
+            columnTitlePage.title = i18n.tr("Create column")
+            selectServicesPage.title = i18n.tr("Create column")
+            buttonValidate.text = i18n.tr("add column")
         }
+        checkListModel()
+        stackContainer.push(columnTitlePage)
     }
 
     PageStack {
         id: stackContainer
         anchors.fill: parent
 
-        Component.onCompleted: {
-            push(columnTitlePage)
-        }
-
         Page {
             id: columnTitlePage
-            title: i18n.tr("Create column")
             anchors.fill: parent
             visible: false
 
@@ -51,7 +53,6 @@ Page {
 
         Page {
             id: selectServicesPage
-            title: i18n.tr("Create column")
             anchors.fill: parent
             visible: false
 
@@ -76,16 +77,16 @@ Page {
             }
 
             Button {
-                text: i18n.tr("add column")
+                id: buttonValidate
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
                 anchors.bottomMargin: units.gu(1)
                 anchors.rightMargin: units.gu(1)
-                onClicked: addColumn()
+                onClicked: validate()
             }
 
             onVisibleChanged: {
-                if(visible) {
+                if(visible && listModel.count === 0) {
                     network.send({cmd:"allUnifiedRequests"})
                 }
             }
@@ -114,12 +115,13 @@ Page {
                     })
                 }
             }
+            checkListModel()
         } else if(data.cmd === "allColumns") {
             columns = data.body
         }
     }
 
-    function addColumn() {
+    function validate() {
         var unifiedRequests = []
         for(var i=0; i < listModel.count; i++) {
             if(listModel.get(i).selected) {
@@ -132,19 +134,54 @@ Page {
             }
         }
 
-        var cmd = {
-            cmd: "addColumn",
-            body: {
+        var cmd = {}
+        if(!column) {
+            cmd.cmd = "addColumn"
+            cmd.body = {
                 title: titleInput.text,
                 unifiedRequests: unifiedRequests,
                 index: columns.length,
                 width: -1,
                 height: -1
             }
+        } else {
+            cmd.cmd = "modColumn"
+            cmd.body = {
+                title: column.title,
+                column: {
+                    title: titleInput.text,
+                    unifiedRequests: unifiedRequests,
+                    index: columns.length,
+                    width: -1,
+                    height: -1
+                }
+            }
         }
 
         network.send(cmd)
         columnAdded()
+    }
+
+    function checkListModel() {
+        for(var i=0; i<listModel.count; i++) {
+            var clear = listModel.get(i)
+            clear.selected = false
+            clear.arg.value = ""
+            listModel.set(i, clear)
+            if(column) {
+                for(var j=0; j<column.unifiedRequests.count; j++) {
+                    var service = listModel.get(i).providerName + "." + listModel.get(i).serviceName
+                    if(column.unifiedRequests.get(j).service === service) {
+                        var old = listModel.get(i)
+                        old.selected = true
+                        for(var key in column.unifiedRequests.get(j).args) {
+                            old.arg = {name: old.arg.name, value: column.unifiedRequests.get(j).args[key]}
+                        }
+                        listModel.set(i, old)
+                    }
+                }
+            }
+        }
     }
 
     function setNetwork(pnetwork) {

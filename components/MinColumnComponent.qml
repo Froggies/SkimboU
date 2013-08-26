@@ -17,6 +17,8 @@ Rectangle {
                 var psc = compo.createObject(layout)
                 psc.provider = column.unifiedRequests[i]
             }*/
+        } else {
+            myText.text = "Huuuu"
         }
     }
 

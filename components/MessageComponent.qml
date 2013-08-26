@@ -25,7 +25,7 @@ Rectangle {
             providerRound.color = color;
             providerName.color = color;
             providerName.text = message.from;
-            console.log("MessageComponent :: onMessageChanged :: "+message.createdAt)
+            //console.log("MessageComponent :: onMessageChanged :: "+message.createdAt)
             var date = new Date()
             date.setTime(message.createdAt)
             datetimeMsg.text = Qt.formatDateTime(date, "dd-MM-yyyy hh:mm:ss");

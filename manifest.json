@@ -1,0 +1,17 @@
+{
+    "framework": "ubuntu-sdk-13.10",
+    "maintainer": "romain maneschi (launchpad) <rmaneschi@gmail.com>",
+    "name": "com.ubuntu.developer.rmaneschi.SkimboU",
+    "security": {
+        "profiles": {
+            "SkimboU": {
+                "policy_groups": [
+                    "networking"
+                ],
+                "policy_version": 1
+            }
+        }
+    },
+    "title": "SkimboU",
+    "version": "0.1"
+}

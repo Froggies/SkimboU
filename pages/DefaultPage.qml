@@ -24,7 +24,7 @@ Page {
             title: i18n.tr("All columns")
             anchors.fill: parent
 
-            ListView {
+            page: ListView {
                 id: columnsContainer
                 anchors.fill: parent
                 clip: true
@@ -40,20 +40,14 @@ Page {
         }
         Repeater {
             id: repeater
-            model: listModelColumns
-            Tab {
-                title: listModelColumns.get(index).title
-                anchors.fill: parent
 
-                ColumnPage {
-                    id: columnPage
-                    anchors.fill: parent
-                    column: listModelColumns.get(index)
+            delegate: ColumnPage {
+                Component.onCompleted: {
+                    console.log("-----------")
+                    console.log(JSON.stringify(listModelColumns.get(0)))
                 }
 
-                function addMsg(newMsg) {
-                    columnPage.addMsg(newMsg);
-                }
+                column: listModelColumns.get(0)
             }
         }
 
@@ -121,11 +115,17 @@ Page {
     function newDataFromServer(data) {
         //console.log("DefaultPage :: newDataFromServer :: "+data.cmd)
         if(data.cmd === "allColumns") {
-            listModelColumns.clear();
+            /*for(var c=listModelColumns.count-1; c>=0; c--) {
+                listModelColumns.remove(c)
+            }*/
+            repeater.model = null
+            listModelColumns.clear()
             for(var i in data.body) {
                 data.body[i].messages = [];
+                console.log("DefaultPage :: newDataFromServer :: "+JSON.stringify(data.body[i]))
                 listModelColumns.append(data.body[i])
             }
+            repeater.model = listModelColumns
         } else if(data.cmd === "msg") {
             for(var c = 0; c < listModelColumns.count; c++) {
                 var column = listModelColumns.get(c);
@@ -135,12 +135,13 @@ Page {
                 }
             }
         } else if(data.cmd === "addColumn") {
+            console.log("DefaultPage :: newDataFromServer :: "+data.cmd)
             data.body.messages = []
             listModelColumns.append(data.body)
         } else if(data.cmd === "delColumn") {
-            for(var i=0; i<listModelColumns.count; i++) {
-                if(listModelColumns.get(i).title === data.body.title){
-                    listModelColumns.remove(i)
+            for(var ii=0; ii<listModelColumns.count; ii++) {
+                if(listModelColumns.get(ii).title === data.body.title){
+                    listModelColumns.remove(ii)
                 }
             }
         }

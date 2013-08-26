@@ -24,12 +24,7 @@ Rectangle {
             var hasToken = service.hasToken
             image.source = Qt.resolvedUrl("../files/brand/"+providerName+".png")
             text.text = serviceName
-            if(service.selected) {
-                selected.visible = true
-                selected.color = colorConstant.getColorByProvider(providerName);
-            } else {
-                service.selected = false
-            }
+            updateServiceVisibility()
         }
     }
 
@@ -37,18 +32,7 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             service.selected = !service.selected
-            if(service.selected) {
-                selected.visible = true
-                selected.color = colorConstant.getColorByProvider(providerName);
-                if(service.arg.name) {
-                    argInput.visible = true
-                    argInput.placeholderText = arg.name
-                    argInput.text = arg.value
-                }
-            } else {
-                selected.visible = false
-                argInput.visible = false
-            }
+            updateServiceVisibility()
         }
     }
 
@@ -90,6 +74,21 @@ Rectangle {
         border.color: "#ECECEC"
         border.width: 1
         antialiasing: true
+    }
+
+    function updateServiceVisibility() {
+        if(service.selected) {
+            selected.visible = true
+            selected.color = colorConstant.getColorByProvider(providerName);
+            if(service.arg.name) {
+                argInput.visible = true
+                argInput.placeholderText = arg.name
+                argInput.text = arg.value
+            }
+        } else {
+            selected.visible = false
+            argInput.visible = false
+        }
     }
 
 }

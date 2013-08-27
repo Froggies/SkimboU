@@ -30,10 +30,14 @@ MainView {
 
         LoginPage {
             id: loginPage
+            visible: false
             onLogin: {
                 webView.title = provider
                 webView.webViewUrl = authUrl + provider
                 globalContainer.push(webView)
+            }
+            onGoSelectServerPage: {
+                globalContainer.push(selectServerPage)
             }
         }
         WebViewPage {
@@ -76,6 +80,10 @@ MainView {
         }
         MessagePage {
             id: messagePage
+            visible: false
+        }
+        SelectServerPage {
+            id: selectServerPage
             visible: false
         }
 

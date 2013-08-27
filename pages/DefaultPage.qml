@@ -24,7 +24,7 @@ Page {
             title: i18n.tr("All columns")
             anchors.fill: parent
 
-            page: ListView {
+            ListView {
                 id: columnsContainer
                 anchors.fill: parent
                 clip: true
@@ -33,21 +33,19 @@ Page {
                     column: listModelColumns.get(index)
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: tabs.selectedTabIndex = index + 1
+                        onClicked: tabs.selectedTabIndex = index+1
                     }
+                }
+                Scrollbar {
+                    flickableItem: columnsContainer
                 }
             }
         }
         Repeater {
             id: repeater
-
+            model: listModelColumns
             delegate: ColumnPage {
-                Component.onCompleted: {
-                    console.log("-----------")
-                    console.log(JSON.stringify(listModelColumns.get(0)))
-                }
-
-                column: listModelColumns.get(0)
+                column: listModelColumns.get(index)
             }
         }
 
@@ -115,17 +113,13 @@ Page {
     function newDataFromServer(data) {
         //console.log("DefaultPage :: newDataFromServer :: "+data.cmd)
         if(data.cmd === "allColumns") {
-            /*for(var c=listModelColumns.count-1; c>=0; c--) {
-                listModelColumns.remove(c)
-            }*/
-            repeater.model = null
             listModelColumns.clear()
-            for(var i in data.body) {
+            for(var i=0; i<data.body.length; i++) {
                 data.body[i].messages = [];
-                console.log("DefaultPage :: newDataFromServer :: "+JSON.stringify(data.body[i]))
+                data.body[i].index = undefined;//!!! BUG !!! collision with index of ListView and Repeater
+                console.log("DefaultPage :: newDataFromServer :: "+i+"  ->  "+JSON.stringify(data.body[i]))
                 listModelColumns.append(data.body[i])
             }
-            repeater.model = listModelColumns
         } else if(data.cmd === "msg") {
             for(var c = 0; c < listModelColumns.count; c++) {
                 var column = listModelColumns.get(c);
@@ -139,9 +133,10 @@ Page {
             data.body.messages = []
             listModelColumns.append(data.body)
         } else if(data.cmd === "delColumn") {
-            for(var ii=0; ii<listModelColumns.count; ii++) {
+            for(var ii=listModelColumns.count-1; ii>=0; ii--) {
                 if(listModelColumns.get(ii).title === data.body.title){
                     listModelColumns.remove(ii)
+                    return;
                 }
             }
         }

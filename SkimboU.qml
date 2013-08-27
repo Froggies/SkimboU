@@ -57,7 +57,7 @@ MainView {
                 storage.setSetting("token", "Unknown")
             }
             onGoAddColumnPage: {
-                addColumnPage = null
+                addColumnPage = undefined
                 globalContainer.push(addColumnPage)
             }
             onGoModifColumnPage: {
@@ -80,10 +80,8 @@ MainView {
             addColumnPage.setNetwork(network)
             storage = Qt.createComponent("utils/Storage.qml").createObject();
             if(storage.getSetting("token") !== "Unknown") {
-                console.log(storage.getSetting("token"))
                 network.connect(storage.getSetting("token"))
                 loginPage.visible = false
-                defaultPage.visible = true
                 globalContainer.push(defaultPage)
             }
         }

@@ -11,6 +11,8 @@ Tab {
     onColumnChanged: {
         if(column) {
             tab.title = column.title
+        } else {
+            console.log("ColumnPage :: onColumnChanged :: "+JSON.stringify(column));
         }
     }
 
@@ -32,7 +34,7 @@ Tab {
         id: listModel
     }
 
-    page: ListView {
+    ListView {
         anchors.fill: parent
         clip: true
         model: listModel

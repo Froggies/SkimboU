@@ -16,14 +16,24 @@ Page {
             columnTitlePage.title = i18n.tr("Mod column")
             selectServicesPage.title = i18n.tr("Mod column")
             buttonValidate.text = i18n.tr("mod column")
+            checkListModel()
+            stackContainer.push(columnTitlePage)
         } else {
-            titleInput.text = ""
-            columnTitlePage.title = i18n.tr("Create column")
-            selectServicesPage.title = i18n.tr("Create column")
-            buttonValidate.text = i18n.tr("add column")
+            init()
         }
+    }
+
+    Component.onCompleted: {
+        titleInput.text = ""
+        columnTitlePage.title = i18n.tr("Create column")
+        selectServicesPage.title = i18n.tr("Create column")
+        buttonValidate.text = i18n.tr("add column")
         checkListModel()
         stackContainer.push(columnTitlePage)
+    }
+
+    function init() {
+
     }
 
     PageStack {
@@ -93,34 +103,6 @@ Page {
         }
     }
 
-    property Network network;
-    property var columns;
-
-    function newDataFromServer(data) {
-        //console.log("AddColumnPage :: newDataFromServer :: "+data.cmd)
-        if(data.cmd === "allUnifiedRequests") {
-            listModel.clear()
-            for(var i in data.body) {
-                var providerName = data.body[i].endpoint
-                var hasToken = data.body[i].hasToken
-                for(var j in data.body[i].services) {
-                    var serviceName = data.body[i].services[j].service.split(".")[1];
-                    var arg = data.body[i].services[j].args[0];
-                    listModel.append({
-                        providerName: providerName,
-                        serviceName: serviceName,
-                        hasToken: hasToken,
-                        arg: {name: arg, value: ""},
-                        selected: false
-                    })
-                }
-            }
-            checkListModel()
-        } else if(data.cmd === "allColumns") {
-            columns = data.body
-        }
-    }
-
     function validate() {
         var unifiedRequests = []
         for(var i=0; i < listModel.count; i++) {
@@ -181,6 +163,34 @@ Page {
                     }
                 }
             }
+        }
+    }
+
+    property Network network;
+    property var columns: [];
+
+    function newDataFromServer(data) {
+        //console.log("AddColumnPage :: newDataFromServer :: "+data.cmd)
+        if(data.cmd === "allUnifiedRequests") {
+            listModel.clear()
+            for(var i in data.body) {
+                var providerName = data.body[i].endpoint
+                var hasToken = data.body[i].hasToken
+                for(var j in data.body[i].services) {
+                    var serviceName = data.body[i].services[j].service.split(".")[1];
+                    var arg = data.body[i].services[j].args[0];
+                    listModel.append({
+                        providerName: providerName,
+                        serviceName: serviceName,
+                        hasToken: hasToken,
+                        arg: {name: arg, value: ""},
+                        selected: false
+                    })
+                }
+            }
+            checkListModel()
+        } else if(data.cmd === "allColumns") {
+            columns = data.body
         }
     }
 

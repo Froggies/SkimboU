@@ -6,6 +6,8 @@ Tab {
     id: tab
     anchors.fill: parent
 
+    signal selectMessage(var message)
+
     property var column
 
     onColumnChanged: {
@@ -40,6 +42,8 @@ Tab {
         model: listModel
         delegate: MessageComponent {
             message: listModel.get(index)
+            height: units.gu(20)
+            onSelectMessage: tab.selectMessage(message)
         }
     }
 }

@@ -4,12 +4,14 @@ import "../utils"
 
 Rectangle {
     width: parent.width
-    height: units.gu(20)
     border.color: "#ECECEC"
     border.width: 1
 
+    signal selectMessage(var message)
+
     property ColorConstant colorConstant
     property var message
+    property bool showMoreButton: true
 
     onMessageChanged: {
         if(message) {
@@ -25,6 +27,12 @@ Rectangle {
             providerRound.color = color;
             providerName.color = color;
             providerName.text = message.from;
+            if(message.stared > -1) {
+                starText.visible = true
+                starText.text = message.stared + "★";
+            } else {
+                starText.visible = false
+            }
             //console.log("MessageComponent :: onMessageChanged :: "+message.createdAt)
             var date = new Date()
             date.setTime(message.createdAt)
@@ -32,6 +40,7 @@ Rectangle {
         }
     }
 
+    FontLoader { id: localFont; source: "../files/font/fontello.ttf" }
 
     Item {
         id: providerView
@@ -66,7 +75,7 @@ Rectangle {
         }
     }
     Item {
-        height: units.gu(20)
+        height: parent.height
         anchors.left: providerView.right
         anchors.leftMargin: units.gu(1)
         anchors.right: parent.right
@@ -97,12 +106,39 @@ Rectangle {
             anchors.top: parent.top
             anchors.topMargin: units.gu(6.5)
             anchors.bottom: parent.bottom
+            anchors.bottomMargin: units.gu(2.8)
+            anchors.left: parent.left
+            anchors.leftMargin: units.gu(1)
+            width: parent.width
+            clip: true
+            wrapMode: Text.WordWrap
+        }
+        Label {
+            id: starText
+            anchors.bottom: parent.bottom
             anchors.bottomMargin: units.gu(0.5)
             anchors.left: parent.left
             anchors.leftMargin: units.gu(0.5)
-            width: parent.width
-            wrapMode: Text.WordWrap
-            clip: true
+            font: localFont.name
+        }
+
+        Item {
+            visible: showMoreButton
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: units.gu(0.5)
+            anchors.right: parent.right
+            anchors.rightMargin: units.gu(0.5)
+            width: units.gu(6)
+            height: units.gu(4)
+            Label {
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                text: i18n.tr("more...")
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: selectMessage(message)
+            }
         }
     }
 }

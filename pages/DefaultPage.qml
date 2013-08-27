@@ -10,6 +10,7 @@ Page {
     signal goBack()
     signal goAddColumnPage()
     signal goModifColumnPage(var column)
+    signal goMessagePage(var message)
 
     title: i18n.tr("Skimbo")
 
@@ -46,6 +47,7 @@ Page {
             model: listModelColumns
             delegate: ColumnPage {
                 column: listModelColumns.get(index)
+                onSelectMessage: goMessagePage(message)
             }
         }
 
@@ -91,10 +93,6 @@ Page {
         ToolbarButton {
             text: i18n.tr("Skimber")
             iconSource: Qt.resolvedUrl("../files/icone_skimber.png")
-        }
-        ToolbarButton {
-            text: i18n.tr("All columns")
-            onTriggered: tabs.selectedTabIndex = 0
         }
     }
 

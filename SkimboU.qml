@@ -64,11 +64,19 @@ MainView {
                 addColumnPage.column = column
                 globalContainer.push(addColumnPage)
             }
+            onGoMessagePage: {
+                messagePage.message = message
+                globalContainer.push(messagePage)
+            }
         }
         AddColumnPage {
             id: addColumnPage
             visible: false
             onColumnAdded: globalContainer.pop()
+        }
+        MessagePage {
+            id: messagePage
+            visible: false
         }
 
         Component.onCompleted: {

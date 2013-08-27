@@ -8,8 +8,6 @@ Page {
     title: i18n.tr("Skimbo")
 
     Column {
-        id: pageLayout
-
         anchors {
             margins: units.gu(1)
             centerIn: parent

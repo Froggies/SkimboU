@@ -57,7 +57,7 @@ MainView {
                 storage.setSetting("token", "Unknown")
             }
             onGoAddColumnPage: {
-                addColumnPage = undefined
+                addColumnPage.column = null
                 globalContainer.push(addColumnPage)
             }
             onGoModifColumnPage: {

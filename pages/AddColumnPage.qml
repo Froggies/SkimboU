@@ -16,24 +16,14 @@ Page {
             columnTitlePage.title = i18n.tr("Mod column")
             selectServicesPage.title = i18n.tr("Mod column")
             buttonValidate.text = i18n.tr("mod column")
-            checkListModel()
-            stackContainer.push(columnTitlePage)
         } else {
-            init()
+            titleInput.text = ""
+            columnTitlePage.title = i18n.tr("Create column")
+            selectServicesPage.title = i18n.tr("Create column")
+            buttonValidate.text = i18n.tr("add column")
         }
-    }
-
-    Component.onCompleted: {
-        titleInput.text = ""
-        columnTitlePage.title = i18n.tr("Create column")
-        selectServicesPage.title = i18n.tr("Create column")
-        buttonValidate.text = i18n.tr("add column")
         checkListModel()
         stackContainer.push(columnTitlePage)
-    }
-
-    function init() {
-
     }
 
     PageStack {

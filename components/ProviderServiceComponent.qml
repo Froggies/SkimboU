@@ -13,6 +13,7 @@ Rectangle {
     property ColorConstant colorConstant
 
     signal argValueChange(string newValue)
+    signal tokenRequested(string provider)
 
     onServiceChanged: {
         if(service) {
@@ -32,6 +33,9 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             service.selected = !service.selected
+            if(service.hasToken === false && service.selected === true) {
+                tokenRequested(service.providerName)
+            }
             updateServiceVisibility()
         }
     }

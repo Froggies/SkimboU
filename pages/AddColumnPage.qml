@@ -73,6 +73,11 @@ Page {
                         old.arg = {name: old.arg.name, value:newValue}
                         listModel.set(index, old)
                     }
+                    onTokenRequested: {
+                        webView.title = provider
+                        webView.webViewUrl = authUrl + provider
+                        stackContainer.push(webView)
+                    }
                 }
             }
 
@@ -89,6 +94,18 @@ Page {
                 if(visible && listModel.count === 0) {
                     network.send({cmd:"allUnifiedRequests"})
                 }
+            }
+        }
+
+        WebViewPage {
+            id: webView
+            visible: false
+            onGoBack: {
+                stackContainer.pop()
+            }
+            onLogged: {
+                stackContainer.pop()
+                stackContainer.push(selectServicesPage)
             }
         }
     }

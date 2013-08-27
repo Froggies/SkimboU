@@ -51,6 +51,21 @@ Page {
 
     }
 
+    Component {
+        id: columnPopover
+        ColumnPopoverComponent {
+            onNewColumn: {
+                goAddColumnPage()
+            }
+            onModColumn: {
+                goModifColumnPage(listModelColumns.get(tabs.selectedTabIndex-1))
+            }
+            onDelColumn: {
+                PopupUtils.open(dialogueDeleteColumn)
+            }
+        }
+    }
+
     tools: ToolbarItems {
         back: ToolbarButton {
             //empty button according to the ubuntu general design = no back in tabPanel
@@ -62,19 +77,16 @@ Page {
             onTriggered: goBack()
         }
         ToolbarButton {
-            text: i18n.tr("Delete")
-            visible: tabs.selectedTabIndex != 0
-            onTriggered: PopupUtils.open(dialogueDeleteColumn)
-        }
-        ToolbarButton {
-            text: i18n.tr("Mod")
-            visible: tabs.selectedTabIndex != 0
-            onTriggered: goModifColumnPage(listModelColumns.get(tabs.selectedTabIndex-1))
-        }
-        ToolbarButton {
+            id: columnButton
             text: i18n.tr("Column")
             iconSource: Qt.resolvedUrl("../files/icone_addcolumn.png")
-            onTriggered: goAddColumnPage()
+            onTriggered: {
+                if(tabs.selectedTabIndex != 0) {
+                    PopupUtils.open(columnPopover, columnButton)
+                } else {
+                    goAddColumnPage()
+                }
+            }
         }
         ToolbarButton {
             text: i18n.tr("Skimber")
@@ -117,7 +129,6 @@ Page {
             for(var i=0; i<data.body.length; i++) {
                 data.body[i].messages = [];
                 data.body[i].index = undefined;//!!! BUG !!! collision with index of ListView and Repeater
-                console.log("DefaultPage :: newDataFromServer :: "+i+"  ->  "+JSON.stringify(data.body[i]))
                 listModelColumns.append(data.body[i])
             }
         } else if(data.cmd === "msg") {
@@ -129,7 +140,6 @@ Page {
                 }
             }
         } else if(data.cmd === "addColumn") {
-            console.log("DefaultPage :: newDataFromServer :: "+data.cmd)
             data.body.messages = []
             listModelColumns.append(data.body)
         } else if(data.cmd === "delColumn") {

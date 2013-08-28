@@ -20,10 +20,8 @@ Page {
 
     Tabs {
         id: tabs
-        anchors.fill: parent
         Tab {
             title: i18n.tr("All columns")
-            anchors.fill: parent
 
             ListView {
                 id: columnsContainer

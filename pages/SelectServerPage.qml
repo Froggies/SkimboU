@@ -4,6 +4,7 @@ import Ubuntu.Components 0.1
 Page {
 
     title: i18n.tr("Skimbo's servers")
+    anchors.fill: parent
 
     Component.onCompleted: listServers.model = [
        {name: i18n.tr("Official"), urlServer: "http://skimbo-froggies.rhcloud.com"},

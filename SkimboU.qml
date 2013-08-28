@@ -53,6 +53,11 @@ MainView {
                 globalContainer.push(defaultPage)
             }
         }
+        SelectServerPage {
+            id: selectServerPage
+            title: i18n.tr("Skimbo's servers")
+            visible: false
+        }
         DefaultPage {
             id: defaultPage
             visible: false
@@ -82,10 +87,6 @@ MainView {
             id: messagePage
             visible: false
         }
-        SelectServerPage {
-            id: selectServerPage
-            visible: false
-        }
 
         Component.onCompleted: {
             globalContainer.push(loginPage)
@@ -98,6 +99,7 @@ MainView {
             if(storage.getSetting("token") !== "Unknown") {
                 network.connect(storage.getSetting("token"))
                 loginPage.visible = false
+                console.log("SkimboU :: onCompleted :: defaultPage push")
                 globalContainer.push(defaultPage)
             }
         }

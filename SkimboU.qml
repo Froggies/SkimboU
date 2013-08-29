@@ -57,6 +57,12 @@ MainView {
             id: selectServerPage
             title: i18n.tr("Skimbo's servers")
             visible: false
+            onAddServer: {
+                storage.addServer(name, urlServer, selected)
+            }
+            onDeleteServer: {
+                storage.deleteServer(name)
+            }
         }
         DefaultPage {
             id: defaultPage
@@ -90,16 +96,27 @@ MainView {
 
         Component.onCompleted: {
             globalContainer.push(loginPage)
+
+            storage = Qt.createComponent("utils/Storage.qml").createObject();
+            var servers = storage.getServers()
+            selectServerPage.extraServers = servers;
+            var foundServer = false;
+            for(var i=0; i<servers.length && foundServer === false; i++) {
+                if(servers[i].selected === true) {
+                    foundServer = true
+                    serverUrl = servers[i].urlServer
+                }
+            }
+
             network = Qt.createComponent("utils/Network.qml").createObject();
             network.connectUrl = connectUrl
             network.commandUrl = commandUrl
             defaultPage.setNetwork(network)
             addColumnPage.setNetwork(network)
-            storage = Qt.createComponent("utils/Storage.qml").createObject();
+
             if(storage.getSetting("token") !== "Unknown") {
                 network.connect(storage.getSetting("token"))
                 loginPage.visible = false
-                console.log("SkimboU :: onCompleted :: defaultPage push")
                 globalContainer.push(defaultPage)
             }
         }

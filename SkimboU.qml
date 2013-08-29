@@ -59,6 +59,9 @@ MainView {
             visible: false
             onAddServer: {
                 storage.addServer(name, urlServer, selected)
+                serverUrl = urlServer
+                network.connectUrl = connectUrl
+                network.commandUrl = commandUrl
             }
             onDeleteServer: {
                 storage.deleteServer(name)

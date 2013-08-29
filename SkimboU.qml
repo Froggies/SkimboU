@@ -60,8 +60,10 @@ MainView {
             onAddServer: {
                 storage.addServer(name, urlServer, selected)
                 serverUrl = urlServer
-                network.connectUrl = connectUrl
-                network.commandUrl = commandUrl
+                if(network) {
+                    network.connectUrl = connectUrl
+                    network.commandUrl = commandUrl
+                }
             }
             onDeleteServer: {
                 storage.deleteServer(name)

@@ -13,8 +13,6 @@ Tab {
     onColumnChanged: {
         if(column) {
             tab.title = column.title
-        } else {
-            console.log("ColumnPage :: onColumnChanged :: "+JSON.stringify(column));
         }
     }
 

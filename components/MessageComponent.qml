@@ -36,7 +36,7 @@ Rectangle {
             //console.log("MessageComponent :: onMessageChanged :: "+message.createdAt)
             var date = new Date()
             date.setTime(message.createdAt)
-            datetimeMsg.text = Qt.formatDateTime(date, "dd-MM-yyyy hh:mm:ss");
+            datetimeMsg.text = Qt.formatDateTime(date, i18n.tr("yyyy-MM-dd hh:mm:ss"));
         }
     }
 
@@ -121,7 +121,6 @@ Rectangle {
             anchors.leftMargin: units.gu(0.5)
             font: localFont.name
         }
-
         Item {
             visible: showMoreButton
             anchors.bottom: parent.bottom

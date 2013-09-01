@@ -1,0 +1,15 @@
+Source: skimbou
+Section: unknown
+Priority: extra
+Maintainer: manland <manland@unknown>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://git.debian.org/collab-maint/skimbou.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/skimbou.git;a=summary
+
+Package: skimbou
+Architecture: all
+Depends: ${misc:Depends},libqt5webkit5-qmlwebkitplugin,libqt5webkit5-qmlwebkitplugin,qtdeclarative5-localstorage-plugin,qtdeclarative5-localstorage-plugin,qtdeclarative5-qtquick2-plugin,qtdeclarative5-qtquick2-plugin,qtdeclarative5-ubuntu-ui-toolkit-plugin|qt-components-ubuntu,${shlibs:Depends},qmlscene
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

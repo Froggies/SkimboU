@@ -1,12 +1,14 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+//import Ubuntu.Unity.Action 1.0
 import "components"
 import "pages"
 import "utils"
 
 MainView {
-    objectName: "mainView"
+    objectName: "SkimboU"
     applicationName: "SkimboU"
+
     id: root
     
     /* 
@@ -97,6 +99,7 @@ MainView {
         MessagePage {
             id: messagePage
             visible: false
+            onSendToServer: network.send(data)
         }
 
         Component.onCompleted: {
@@ -127,5 +130,15 @@ MainView {
         }
 
     }
+
+    // HUD Actions
+    /*Action {
+        id: nextAction
+        text: i18n.tr("Next")
+        keywords: i18n.tr("Next Track")
+        onTriggered: nextSong()
+    }
+
+    actions: [nextAction]*/
 
 }

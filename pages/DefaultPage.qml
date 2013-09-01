@@ -131,6 +131,7 @@ Page {
             for(var c = 0; c < listModelColumns.count; c++) {
                 var column = listModelColumns.get(c);
                 if(column.title === data.body.column) {
+                    data.body.msg.column = column.title
                     repeater.itemAt(c).addMsg(data.body.msg);
                     return;
                 }

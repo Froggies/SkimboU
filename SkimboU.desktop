@@ -1,8 +1,13 @@
 [Desktop Entry]
 Name=SkimboU
-Comment=My project description
-Exec=/usr/bin/qmlscene $@ /usr/share/SkimboU/SkimboU.qml
-Icon=qmlscene
+Comment=All your social life
+Exec=/usr/bin/qmlscene /usr/share/SkimboU/SkimboU.qml
+Icon=/usr/share/SkimboU/files/favicon.png
 Terminal=false
 Type=Application
 X-Ubuntu-Touch=true
+Encoding=UTF-8
+Version=1.0
+StartupNotify=true
+X-Ubuntu-StageHint=skimbou-app
+Name[sv_SE]=SkimboU

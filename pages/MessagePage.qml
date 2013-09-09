@@ -6,9 +6,10 @@ import "../utils"
 Page {
 
     title: i18n.tr("Message")
-    id: page
+    id: messagePage
 
     signal sendToServer(var data)
+    signal goSkimber(var message)
 
     property var message
     property ColorConstant colorConstant
@@ -74,7 +75,7 @@ Page {
             Text {
                 id: text
                 wrapMode: TextEdit.Wrap
-                width: page.width
+                width: messagePage.width
                 anchors.margins: units.gu(2)
             }
             TextField {
@@ -115,6 +116,9 @@ Page {
             id: shareButton
             text: i18n.tr("Share")
             iconSource: Qt.resolvedUrl("../files/share.png")
+            onTriggered: {
+                goSkimber(message)
+            }
         }
         ToolbarButton {
             id: refreshButton

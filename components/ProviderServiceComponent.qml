@@ -84,7 +84,7 @@ Rectangle {
         if(service.selected) {
             selected.visible = true
             selected.color = colorConstant.getColorByProvider(providerName);
-            if(service.arg.name) {
+            if(service.arg && service.arg.name) {
                 argInput.visible = true
                 argInput.placeholderText = arg.name
                 argInput.text = arg.value

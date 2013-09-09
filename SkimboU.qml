@@ -11,10 +11,6 @@ MainView {
 
     id: root
     
-    /* 
-     This property enables the application to change orientation 
-     when the device is rotated. The default is false.
-    */
     //automaticOrientation: true
     
     width: units.gu(35)
@@ -71,12 +67,26 @@ MainView {
                 storage.deleteServer(name)
             }
         }
+        SkimberPage {
+            id: skimberPage
+            visible: false
+            onNewTokenRequested: {
+                webView.title = provider
+                webView.webViewUrl = authUrl + provider
+                globalContainer.push(webView)
+            }
+        }
+
         DefaultPage {
             id: defaultPage
             visible: false
             onGoBack: {
                 globalContainer.pop()
                 storage.setSetting("token", "Unknown")
+            }
+            onGoSkimber: {
+                skimberPage.text = ""
+                globalContainer.push(skimberPage)
             }
             onGoAddColumnPage: {
                 addColumnPage.column = null
@@ -100,6 +110,10 @@ MainView {
             id: messagePage
             visible: false
             onSendToServer: network.send(data)
+            onGoSkimber: {
+                skimberPage.text = message.message
+                globalContainer.push(skimberPage)
+            }
         }
 
         Component.onCompleted: {
@@ -121,6 +135,7 @@ MainView {
             network.commandUrl = commandUrl
             defaultPage.setNetwork(network)
             addColumnPage.setNetwork(network)
+            skimberPage.setNetwork(network)
 
             if(storage.getSetting("token") !== "Unknown") {
                 network.connect(storage.getSetting("token"))

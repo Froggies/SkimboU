@@ -8,6 +8,7 @@ Page {
 
     property Network network
     signal goBack()
+    signal goSkimber()
     signal goAddColumnPage()
     signal goModifColumnPage(var column)
     signal goMessagePage(var message)
@@ -91,6 +92,7 @@ Page {
         ToolbarButton {
             text: i18n.tr("Skimber")
             iconSource: Qt.resolvedUrl("../files/icone_skimber.png")
+            onTriggered: goSkimber()
         }
     }
 

@@ -153,6 +153,13 @@ Page {
                     return;
                 }
             }
+        } else if(data.cmd === "modColumn") {
+            for(var modColumnIndex=0; modColumnIndex<listModelColumns.count; modColumnIndex++) {
+                if(listModelColumns.get(modColumnIndex).title === data.body.title){
+                    listModelColumns.set(modColumnIndex, data.body.column)
+                    return;
+                }
+            }
         }
     }
 

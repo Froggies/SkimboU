@@ -115,6 +115,10 @@ MainView {
                 globalContainer.push(skimberPage)
             }
         }
+        TestPage {
+            id: testPage
+            visible: false
+        }
 
         Component.onCompleted: {
             globalContainer.push(loginPage)
@@ -141,6 +145,7 @@ MainView {
                 network.connect(storage.getSetting("token"))
                 loginPage.visible = false
                 globalContainer.push(defaultPage)
+                //globalContainer.push(testPage)
             }
         }
 

@@ -3,6 +3,7 @@ import Ubuntu.Components 0.1
 import "../utils"
 
 Rectangle {
+    id: parentContainer
     width: parent.width
     border.color: "#ECECEC"
     border.width: 1
@@ -37,6 +38,12 @@ Rectangle {
             var date = new Date()
             date.setTime(message.createdAt)
             datetimeMsg.text = Qt.formatDateTime(date, i18n.tr("yyyy-MM-dd hh:mm:ss"));
+            console.log("MessageComponent :: onMessageChanged :: "+message.isView)
+            if(message.isView === false) {
+                parentContainer.color = "#ECECED"
+            } else {
+                parentContainer.color = "#FFFFFF"
+            }
         }
     }
 

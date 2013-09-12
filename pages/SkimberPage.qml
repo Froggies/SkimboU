@@ -187,7 +187,7 @@ Page {
             }
           }
         }
-        console.log("PPOOSSTT :: "+JSON.stringify(o))
+        console.log("SkimberPage :: validate :: "+JSON.stringify(o))
         network.send(o);
     }
 

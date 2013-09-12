@@ -25,8 +25,6 @@ MainView {
 
     PageStack {
         id: globalContainer
-        width: parent.width
-        height: parent.height
 
         LoginPage {
             id: loginPage
@@ -50,7 +48,7 @@ MainView {
                 storage.setSetting("token", token)
                 network.connect(storage.getSetting("token"))
                 globalContainer.pop()//webView delete
-                globalContainer.push(defaultPageItem)
+                globalContainer.push(defaultPage)
             }
         }
         SelectServerPage {
@@ -78,59 +76,28 @@ MainView {
                 globalContainer.push(webView)
             }
         }
-        Item {
-            id: defaultPageItem
-            visible: false
-            width: parent.width
-            height: parent.height
+        DefaultPage {
+            id: defaultPage
 
-            Component.onCompleted: {
-                console.log("Skimbou :: itemOnComplet (l.88) :: width == "+width+" :: height == "+height)
+            onGoBack: {
+                globalContainer.pop()
+                storage.setSetting("token", "Unknown")
             }
-
-            QtObject {
-                id: defaultPageSettings
-                property Network network
+            onGoSkimber: {
+                skimberPage.text = ""
+                globalContainer.push(skimberPage)
             }
-
-            Loader {
-                id: loaderDefaultPageCompo
-                active: false
-                sourceComponent: defaultPageCompo
+            onGoAddColumnPage: {
+                addColumnPage.column = null
+                globalContainer.push(addColumnPage)
             }
-
-            Component {
-                id: defaultPageCompo
-
-                DefaultPage {
-                    width: defaultPageItem.width
-                    height: defaultPageItem.height
-                    Component.onCompleted: {
-                        setNetwork(defaultPageSettings.network)
-                        console.log("Skimbou :: defaultPageOnComplet (l.111) :: width == "+width+" :: height == "+height)
-                    }
-
-                    onGoBack: {
-                        globalContainer.pop()
-                        storage.setSetting("token", "Unknown")
-                    }
-                    onGoSkimber: {
-                        skimberPage.text = ""
-                        globalContainer.push(skimberPage)
-                    }
-                    onGoAddColumnPage: {
-                        addColumnPage.column = null
-                        globalContainer.push(addColumnPage)
-                    }
-                    onGoModifColumnPage: {
-                        addColumnPage.column = column
-                        globalContainer.push(addColumnPage)
-                    }
-                    onGoMessagePage: {
-                        messagePage.message = message
-                        globalContainer.push(messagePage)
-                    }
-                }
+            onGoModifColumnPage: {
+                addColumnPage.column = column
+                globalContainer.push(addColumnPage)
+            }
+            onGoMessagePage: {
+                messagePage.message = message
+                globalContainer.push(messagePage)
             }
         }
         AddColumnPage {
@@ -169,15 +136,14 @@ MainView {
             network = Qt.createComponent("utils/Network.qml").createObject();
             network.connectUrl = connectUrl
             network.commandUrl = commandUrl
-            defaultPageSettings.network = network
+            defaultPage.setNetwork(network)
             addColumnPage.setNetwork(network)
             skimberPage.setNetwork(network)
 
             if(storage.getSetting("token") !== "Unknown") {
                 network.connect(storage.getSetting("token"))
                 loginPage.visible = false
-                globalContainer.push(defaultPageItem)
-                loaderDefaultPageCompo.active = true
+                globalContainer.push(defaultPage)
                 //globalContainer.push(testPage)
             }
         }

@@ -43,6 +43,7 @@ Tab {
 
     ListView {
         id: messagesListView
+        anchors.fill: parent
         clip: true
         model: listModel
         delegate: MessageComponent {

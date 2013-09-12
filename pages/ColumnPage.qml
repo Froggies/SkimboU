@@ -4,7 +4,6 @@ import "../components"
 
 Tab {
     id: tab
-    anchors.fill: parent
 
     signal selectMessage(var message)
 
@@ -44,7 +43,6 @@ Tab {
 
     ListView {
         id: messagesListView
-        anchors.fill: parent
         clip: true
         model: listModel
         delegate: MessageComponent {
@@ -53,7 +51,7 @@ Tab {
             onSelectMessage: tab.selectMessage(message)
         }
         onContentYChanged: {
-            console.log("ColumnPage :: listView (l.56) :: "+messagesListView.indexAt(contentX, contentY))
+            //console.log("ColumnPage :: listView (l.56) :: "+messagesListView.indexAt(contentX, contentY))
             var oldMsg = messagesListView.itemAt(contentX, contentY + units.gu(12))
             var oldIndex = messagesListView.indexAt(contentX, contentY + units.gu(12))
             if(oldMsg && oldMsg.message && oldMsg.message.isView === false) {

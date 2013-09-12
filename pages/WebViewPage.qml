@@ -21,6 +21,7 @@ Page {
                 logged(token);
             }
         }
+
     }
 
 }

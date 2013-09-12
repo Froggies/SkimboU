@@ -104,7 +104,8 @@ Page {
         ListView {
             anchors.top: providersMessage.bottom
             anchors.topMargin: units.gu(1)
-            height: units.gu(30)
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: units.gu(1)
             anchors.right: parent.right
             anchors.rightMargin: units.gu(1)
             anchors.left: parent.left

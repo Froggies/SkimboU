@@ -6,6 +6,13 @@ import "../components"
 
 Page {
 
+    id: page
+    width: parent.width
+    height: parent.height
+    Component.onCompleted: {
+        console.log("DefaultPage :: minColumnPage (l.11) :: width == "+width+" :: height == "+height)
+    }
+
     property Network network
     signal goBack()
     signal goSkimber()
@@ -13,31 +20,40 @@ Page {
     signal goModifColumnPage(var column)
     signal goMessagePage(var message)
 
-    title: i18n.tr("Skimbo")
-
     ListModel {
         id: listModelColumns
     }
 
     Tabs {
         id: tabs
+
         Tab {
-            title: i18n.tr("All columns")
+            title: i18n.tr("Columns")
+            width: parent.width
+            height: parent.height
+            Component.onCompleted: {
+                console.log("DefaultPage :: minColumnTab (l.28) :: width == "+width+" :: height == "+height)
+            }
 
             ListView {
                 id: columnsContainer
-                anchors.fill: parent
+                width: units.gu(25)
+                height: parent.height
+                Component.onCompleted: {
+                    console.log("DefaultPage :: minColumnListView (l.43) :: width == "+width+" :: height == "+height)
+                }
                 clip: true
                 model: listModelColumns
                 delegate: MinColumnComponent {
                     column: listModelColumns.get(index)
+                    Component.onCompleted: {
+                        console.log("DefaultPage :: minColumnComponent (l.50) :: width == "+width+" :: height == "+height)
+                    }
+
                     MouseArea {
                         anchors.fill: parent
                         onClicked: tabs.selectedTabIndex = index+1
                     }
-                }
-                Scrollbar {
-                    flickableItem: columnsContainer
                 }
             }
         }
@@ -49,7 +65,6 @@ Page {
                 onSelectMessage: goMessagePage(message)
             }
         }
-
     }
 
     Component {

@@ -7,6 +7,7 @@ import "../components"
 Page {
 
     property Network network
+
     signal goBack()
     signal goSkimber()
     signal goAddColumnPage()
@@ -30,6 +31,8 @@ Page {
                 model: listModelColumns
                 delegate: MinColumnComponent {
                     column: listModelColumns.get(index)
+                    nbMsg: listModelColumns.get(index).nbMsg
+                    nbMsgNoView: listModelColumns.get(index).nbMsgNoView
 
                     MouseArea {
                         anchors.fill: parent
@@ -44,6 +47,7 @@ Page {
             delegate: ColumnPage {
                 column: listModelColumns.get(index)
                 onSelectMessage: goMessagePage(message)
+                onMsgView:listModelColumns.setProperty(index, "nbMsgNoView", column.nbMsgNoView -1)
             }
         }
     }
@@ -122,6 +126,8 @@ Page {
             listModelColumns.clear()
             for(var i=0; i<data.body.length; i++) {
                 data.body[i].messages = [];
+                data.body[i].nbMsg = 0;
+                data.body[i].nbMsgNoView = 0;
                 data.body[i].index = undefined;//!!! BUG !!! collision with index of ListView and Repeater
                 listModelColumns.append(data.body[i])
             }
@@ -130,7 +136,10 @@ Page {
                 var column = listModelColumns.get(c);
                 if(column.title === data.body.column) {
                     data.body.msg.column = column.title
-                    repeater.itemAt(c).addMsg(data.body.msg);
+                    listModelColumns.setProperty(c, "nbMsg", column.nbMsg + 1)
+                    listModelColumns.setProperty(c, "nbMsgNoView", column.nbMsgNoView + 1)
+                    repeater.itemAt(c).addMsg(data.body.msg)
+                    console.log("DefaultPage :: receiveMsg (l.137) :: nb == "+column.nbMsg)
                     return;
                 }
             }

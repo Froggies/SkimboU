@@ -6,6 +6,7 @@ Tab {
     id: tab
 
     signal selectMessage(var message)
+    signal msgView(var message)
 
     property var column
 
@@ -58,6 +59,7 @@ Tab {
             if(oldMsg && oldMsg.message && oldMsg.message.isView === false) {
                 oldMsg.message.isView = true
                 oldMsg.message = oldMsg.message//update view
+                msgView(oldMsg)
                 for(var i=oldIndex; i<listModel.count; i++) {
                     listModel.setProperty(oldIndex, "isView", true)//update model in case of scroll down
                 }

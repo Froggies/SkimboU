@@ -141,11 +141,11 @@ MainView {
                     addColumnPage.column = null
                     globalContainer.push(addColumnPage)
                 })
-                defaultPage.onGoModifColumnPage.connect(function() {
+                defaultPage.onGoModifColumnPage.connect(function(column) {
                     addColumnPage.column = column
                     globalContainer.push(addColumnPage)
                 })
-                defaultPage.onGoMessagePage.connect(function() {
+                defaultPage.onGoMessagePage.connect(function(message) {
                     messagePage.message = message
                     globalContainer.push(messagePage)
                 })

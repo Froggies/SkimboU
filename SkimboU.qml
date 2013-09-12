@@ -48,7 +48,7 @@ MainView {
                 storage.setSetting("token", token)
                 network.connect(storage.getSetting("token"))
                 globalContainer.pop()//webView delete
-                globalContainer.push(defaultPage)
+                globalContainer.push(globalContainer.getDefaultPage(network))
             }
         }
         SelectServerPage {
@@ -74,30 +74,6 @@ MainView {
                 webView.title = provider
                 webView.webViewUrl = authUrl + provider
                 globalContainer.push(webView)
-            }
-        }
-        DefaultPage {
-            id: defaultPage
-
-            onGoBack: {
-                globalContainer.pop()
-                storage.setSetting("token", "Unknown")
-            }
-            onGoSkimber: {
-                skimberPage.text = ""
-                globalContainer.push(skimberPage)
-            }
-            onGoAddColumnPage: {
-                addColumnPage.column = null
-                globalContainer.push(addColumnPage)
-            }
-            onGoModifColumnPage: {
-                addColumnPage.column = column
-                globalContainer.push(addColumnPage)
-            }
-            onGoMessagePage: {
-                messagePage.message = message
-                globalContainer.push(messagePage)
             }
         }
         AddColumnPage {
@@ -136,18 +112,47 @@ MainView {
             network = Qt.createComponent("utils/Network.qml").createObject();
             network.connectUrl = connectUrl
             network.commandUrl = commandUrl
-            defaultPage.setNetwork(network)
             addColumnPage.setNetwork(network)
             skimberPage.setNetwork(network)
 
             if(storage.getSetting("token") !== "Unknown") {
                 network.connect(storage.getSetting("token"))
                 loginPage.visible = false
-                globalContainer.push(defaultPage)
+                globalContainer.push(getDefaultPage(network))
                 //globalContainer.push(testPage)
             }
         }
 
+        property DefaultPage defaultPage;
+
+        function getDefaultPage(network) {
+            if(defaultPage === null) {
+                var component = Qt.createComponent("pages/DefaultPage.qml");
+                defaultPage = component.createObject(globalContainer);
+                defaultPage.onGoBack.connect(function() {
+                    globalContainer.pop()
+                    storage.setSetting("token", "Unknown")
+                })
+                defaultPage.onGoSkimber.connect(function() {
+                    skimberPage.text = ""
+                    globalContainer.push(skimberPage)
+                })
+                defaultPage.onGoAddColumnPage.connect(function() {
+                    addColumnPage.column = null
+                    globalContainer.push(addColumnPage)
+                })
+                defaultPage.onGoModifColumnPage.connect(function() {
+                    addColumnPage.column = column
+                    globalContainer.push(addColumnPage)
+                })
+                defaultPage.onGoMessagePage.connect(function() {
+                    messagePage.message = message
+                    globalContainer.push(messagePage)
+                })
+            }
+            defaultPage.setNetwork(network)
+            return defaultPage;
+        }
     }
 
     // HUD Actions

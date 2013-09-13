@@ -22,6 +22,21 @@ Page {
             }
         }
 
+        onLoadProgressChanged: {
+            progressBar.value = loadProgress / 100.0
+            if(loadProgress === 100) {
+                progressBar.visible = false
+            } else {
+                progressBar.visible = true
+            }
+        }
+
     }
+    ProgressBar {
+        id: progressBar
+        anchors.centerIn: parent
+        width: units.gu(20)
+    }
+
 
 }

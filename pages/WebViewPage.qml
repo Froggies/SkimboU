@@ -23,7 +23,11 @@ Page {
         }
 
         onLoadProgressChanged: {
-            progressBar.value = loadProgress / 100.0
+            var percent = loadProgress / 100.0
+            if(!percent) {//at begining percent is undefined
+                percent = 0.0
+            }
+            progressBar.value = percent
             if(loadProgress === 100) {
                 progressBar.visible = false
             } else {

@@ -29,6 +29,21 @@ Page {
                 anchors.fill: parent
                 clip: true
                 model: listModelColumns
+                header: Rectangle {
+                    visible: listModelColumns.count == 0
+                    anchors.top: parent.top
+                    anchors.topMargin: units.gu(1)
+                    width: parent.width
+                    height: listModelColumns.count == 0 ? units.gu(10) : 0
+                    Text {
+                        anchors.centerIn: parent
+                        text: qsTr("Create your first column")
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: goAddColumnPage()
+                    }
+                }
                 delegate: MinColumnComponent {
                     column: listModelColumns.get(index)
                     nbMsg: listModelColumns.get(index).nbMsg
@@ -91,7 +106,7 @@ Page {
         }
         ToolbarButton {
             text: i18n.tr("Account")
-            iconSource: Qt.resolvedUrl("../files/icone_logout.png")
+            iconSource: Qt.resolvedUrl("../files/icone_account.png")
             onTriggered: goAccount()
         }
     }

@@ -73,7 +73,7 @@ Page {
             }
             Button {
                 text: i18n.tr("About")
-                onTriggered: Qt.openUrlExternally("http://blog.skimbo.fr")
+                onTriggered: Qt.openUrlExternally(i18n.tr("http://froggies.github.io/Skimbo/mobile_en.html"))
             }
             Button {
                 text: i18n.tr("Logout")

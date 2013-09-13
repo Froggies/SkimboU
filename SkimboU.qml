@@ -90,6 +90,24 @@ MainView {
                 globalContainer.push(skimberPage)
             }
         }
+        AccountPage {
+            id: accountPage
+            visible: false
+            onGoContact: globalContainer.push(contactPage)
+            onDisconnect: {
+                globalContainer.pop()//go on defaultPage
+                globalContainer.pop()//go on loginPage
+                storage.setSetting("token", "Unknown")
+            }
+        }
+        ContactPage {
+            id: contactPage
+            visible: false
+            onSendMsg: {
+                network.send({cmd: "sendEmail", body:msg})
+                globalContainer.pop()
+            }
+        }
         TestPage {
             id: testPage
             visible: false
@@ -114,6 +132,7 @@ MainView {
             network.commandUrl = commandUrl
             addColumnPage.setNetwork(network)
             skimberPage.setNetwork(network)
+            accountPage.setNetwork(network)
 
             if(storage.getSetting("token") !== "Unknown") {
                 network.connect(storage.getSetting("token"))
@@ -129,9 +148,8 @@ MainView {
             if(defaultPage === null) {
                 var component = Qt.createComponent("pages/DefaultPage.qml");
                 defaultPage = component.createObject(globalContainer);
-                defaultPage.onGoBack.connect(function() {
-                    globalContainer.pop()
-                    storage.setSetting("token", "Unknown")
+                defaultPage.onGoAccount.connect(function() {
+                    globalContainer.push(accountPage)
                 })
                 defaultPage.onGoSkimber.connect(function() {
                     skimberPage.text = ""

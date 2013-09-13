@@ -17,7 +17,6 @@ Tab {
     }
 
     function addMsg(newMsg) {
-        //console.log("ColumnPage :: addMsg :: "+JSON.stringify(newMsg));
         newMsg.isView = false
         var isInView = false
         for(var i=0; i<listModel.count && isInView === false; i++) {
@@ -53,7 +52,6 @@ Tab {
             onSelectMessage: tab.selectMessage(message)
         }
         onContentYChanged: {
-            //console.log("ColumnPage :: listView (l.56) :: "+messagesListView.indexAt(contentX, contentY))
             var oldMsg = messagesListView.itemAt(contentX, contentY + units.gu(12))
             var oldIndex = messagesListView.indexAt(contentX, contentY + units.gu(12))
             if(oldMsg && oldMsg.message && oldMsg.message.isView === false) {

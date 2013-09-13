@@ -8,7 +8,7 @@ Page {
 
     property Network network
 
-    signal goBack()
+    signal goAccount()
     signal goSkimber()
     signal goAddColumnPage()
     signal goModifColumnPage(var column)
@@ -73,11 +73,6 @@ Page {
         }
 
         ToolbarButton {
-            text: i18n.tr("Logout")
-            iconSource: Qt.resolvedUrl("../files/icone_logout.png")
-            onTriggered: goBack()
-        }
-        ToolbarButton {
             id: columnButton
             text: i18n.tr("Column")
             iconSource: Qt.resolvedUrl("../files/icone_addcolumn.png")
@@ -93,6 +88,11 @@ Page {
             text: i18n.tr("Skimber")
             iconSource: Qt.resolvedUrl("../files/icone_skimber.png")
             onTriggered: goSkimber()
+        }
+        ToolbarButton {
+            text: i18n.tr("Account")
+            iconSource: Qt.resolvedUrl("../files/icone_logout.png")
+            onTriggered: goAccount()
         }
     }
 
@@ -139,7 +139,6 @@ Page {
                     listModelColumns.setProperty(c, "nbMsg", column.nbMsg + 1)
                     listModelColumns.setProperty(c, "nbMsgNoView", column.nbMsgNoView + 1)
                     repeater.itemAt(c).addMsg(data.body.msg)
-                    console.log("DefaultPage :: receiveMsg (l.137) :: nb == "+column.nbMsg)
                     return;
                 }
             }
